@@ -1,6 +1,6 @@
 import { useContext, useState } from "react"
 import myContext from "../../context/data/MyContext"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BsFillCloudSunFill } from 'react-icons/bs'
 import { FiSun } from 'react-icons/fi'
 import { Fragment } from "react";
@@ -11,13 +11,20 @@ import profile from "../../assets/profile.png"
 
 const Header = () => {
 	const context = useContext(myContext);
-	console.log(context);
 	const { mode, toggleMode } = context;
-
 	const [open, setOpen] = useState(false)
-	// const user = JSON.parse(localStorage.getItem('user'));
+	const navigate = useNavigate()
+
+	//*** protected routing */
+	const userData = JSON.parse(localStorage.getItem('user'))
+	// console.log(userData);
 
 
+	const logout = () => {
+		localStorage.clear('user')
+		navigate("/login")
+		// window.location.href = '/login'
+	}
 
 	return (
 		<div className=" bg-white sticky top-0 z-50">
@@ -63,23 +70,37 @@ const Header = () => {
 									<Link to={'/allproducts'} className="text-sm font-medium text-gray-900 " style={{ color: mode === 'dark' ? 'white' : '', }}>
 										All Products
 									</Link>
-									<div className="flow-root">
+
+									{userData ? <div className="flow-root">
 										<Link to={'/order'} style={{ color: mode === 'dark' ? 'white' : '', }} className="-m-2 block p-2 font-medium text-gray-900">
 											Order
 										</Link>
 									</div>
+										: ""}
 
-									<div className="flow-root">
+									{userData?.user?.email === "choudharydevesh121@gmail.com" ? <div className="flow-root">
 										<Link to={'/dashboard'} className="-m-2 block p-2 font-medium text-gray-900" style={{ color: mode === 'dark' ? 'white' : '', }}>
 											admin
 										</Link>
-									</div>
+									</div> : ""}
 
-									<div className="flow-root">
-										<a className="-m-2 block p-2 font-medium text-gray-900 cursor-pointer" style={{ color: mode === 'dark' ? 'white' : '', }}>
+									{userData ? <div className="flow-root">
+										<a onClick={logout} className="-m-2 block p-2 font-medium text-gray-900 cursor-pointer" style={{ color: mode === 'dark' ? 'white' : '', }}>
 											Logout
 										</a>
+									</div> : <div className="flow-root">
+										<Link to={'/signup'} className="-m-2 block p-2 font-medium text-gray-900 cursor-pointer" style={{ color: mode === 'dark' ? 'white' : '', }}>
+											Signup
+										</Link>
 									</div>
+									}
+
+									{userData ? "" : <div className="flow-root">
+										<Link to={'/signup'} className="-m-2 block p-2 font-medium text-gray-900 cursor-pointer" style={{ color: mode === 'dark' ? 'white' : '', }}>
+											login
+										</Link>
+									</div>}
+
 									<div className="flow-root">
 										<Link to={'/'} className="-m-2 block p-2 font-medium text-gray-900 cursor-pointer">
 											<img
@@ -131,12 +152,12 @@ const Header = () => {
 								</svg>
 
 							</button>
-							
+
 							{/* Logo */}
 							<div className="ml-4 flex lg:ml-0">
 								<Link to={'/'} className='flex'>
 									<div className="flex ">
-										<h1 className=' text-2xl font-bold text-black  px-2 py-1 rounded' style={{ color: mode === 'dark' ? 'white' : '', }}>E-Bharat</h1>
+										<h1 className=' text-2xl font-bold text-black  px-2 py-1 rounded' style={{ color: mode === 'dark' ? 'white' : '', }}>D-commerce</h1>
 									</div>
 								</Link>
 							</div>
@@ -148,23 +169,25 @@ const Header = () => {
 										All Products
 									</Link>
 
-									<Link to={'/order'} className="text-sm font-medium text-gray-700 " style={{ color: mode === 'dark' ? 'white' : '', }}>
-										Order
-									</Link>
-
-									<Link to={'/signup'} className="text-sm font-medium text-gray-700 " style={{ color: mode === 'dark' ? 'white' : '', }}>
-										Signup
-									</Link>
-
-
-									<Link to={'/dashboard'} className="text-sm font-medium text-gray-700 " style={{ color: mode === 'dark' ? 'white' : '', }}>
-										Admin
-									</Link>
-
-
-									<Link className="text-sm font-medium text-gray-700 cursor-pointer  " style={{ color: mode === 'dark' ? 'white' : '', }}>
+									{userData ? <Link onClick={logout} className="text-sm font-medium text-gray-700 cursor-pointer  " style={{ color: mode === 'dark' ? 'white' : '', }}>
 										Logout
-									</Link>
+									</Link> : <Link to={'/login'} className="text-sm font-medium text-gray-700 " style={{ color: mode === 'dark' ? 'white' : '', }}>
+										Login
+									</Link>}
+
+
+									{userData ? <Link to={'/order'} className="text-sm font-medium text-gray-700 " style={{ color: mode === 'dark' ? 'white' : '', }}>
+										Order
+									</Link> : <Link to={'/signup'} className="text-sm font-medium text-gray-700 " style={{ color: mode === 'dark' ? 'white' : '', }}>
+										Signup
+									</Link>}
+
+									{userData?.user?.email === "choudharydevesh121@gmail.com" ?
+										<Link to={'/dashboard'} className="text-sm font-medium text-gray-700 " style={{ color: mode === 'dark' ? 'white' : '', }}>
+											Admin
+										</Link> : ""}
+
+
 								</div>
 
 								<div className="hidden lg:ml-8 lg:flex">
@@ -213,7 +236,7 @@ const Header = () => {
 				</nav>
 			</header>
 
-		</div>
+		</div >
 	)
 }
 

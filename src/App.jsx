@@ -7,7 +7,6 @@ import Footer from './components/footer/Footer'
 import Header from './components/header/Header'
 import MyContextStateProvider from './context/data/MyStateProvider'
 
-
 function App() {
 
   return (
@@ -25,3 +24,5 @@ function App() {
 }
 
 export default App
+
+

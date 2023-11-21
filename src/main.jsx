@@ -17,6 +17,10 @@ import ProductInfo from './pages/productInfo/ProductInfo.jsx'
 
 import myStore from './redux/Store.jsx'
 import { Provider } from 'react-redux';
+import ProtectedRouteForAdmin from "./components/protectedRouting/ProtectedAdminRoute"
+import ProtectedUserRoute from "./components/protectedRouting/ProtectedUserRoute"
+import AddProduct from './pages/admin/pages/AddProduct'
+import UpdateProduct from './pages/admin/pages/UpdateProduct';
 
 const router = createBrowserRouter([
   {
@@ -46,24 +50,54 @@ const router = createBrowserRouter([
       },
       {
         path: '/order',
-        element: <Order />
+        element: (
+          <ProtectedUserRoute>
+            <Order />
+          </ProtectedUserRoute>)
       },
       {
         path: '/cart',
-        element: <Cart />
+        element:
+          <Cart />
       },
       {
         path: '/dashboard',
-        element: <Dashboard />,
+        element: (
+          <ProtectedRouteForAdmin>
+            <Dashboard />
+          </ProtectedRouteForAdmin>
+        ),
+
+      },
+
+      {
+        path: '/addproduct',
+        element: (
+          <ProtectedRouteForAdmin>
+            <AddProduct />
+          </ProtectedRouteForAdmin>
+        ),
 
       },
       {
+        path: '/updateproduct',
+        element: (
+          <ProtectedRouteForAdmin>
+            <UpdateProduct />
+          </ProtectedRouteForAdmin>
+        ),
+
+      },
+
+      {
         path: '/login',
-        element: <Login />
+        element:
+          <Login />
       },
       {
         path: '/signup',
         element: <Signup />
+
       },
       {
         path: '*',

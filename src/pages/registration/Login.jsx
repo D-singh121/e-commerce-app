@@ -21,7 +21,7 @@ function Login() {
 		setLoading(true)
 		try {
 			const result = await signInWithEmailAndPassword(auth, email, password)
-			console.log(result)
+			// console.log(result)
 			localStorage.setItem('user', JSON.stringify(result));
 
 			toast.success("Login success")

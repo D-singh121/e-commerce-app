@@ -19,10 +19,10 @@ function Signup() {
 	const { loading, setLoading } = context;
 
 	const signup = async () => {
-		setLoading(true)
 		if (name === "" || email === "" || password === "") {
 			return toast.error("All fields are required")
 		}
+		setLoading(true)
 
 		try {
 			const users = await createUserWithEmailAndPassword(auth, email, password);

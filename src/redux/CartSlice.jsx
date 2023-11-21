@@ -2,8 +2,22 @@ import { createSlice } from "@reduxjs/toolkit"
 
 const cartSlice = createSlice({
 	name: "cart",
-	initialState: [],
+	initialState: [{
+		// status: false,
+		// users: null
+	}],
 	reducers: {
+		// login: (state, action) => {
+		// 	state.status = true;
+		// 	state.userData = action.payload.userData
+
+		// },
+		// logout: (state) => {
+		// 	state.status = false;
+		// 	state.userData = null
+		// },
+
+
 		addToCart: (state, action) => {
 			state.push(action.payload)
 		},
