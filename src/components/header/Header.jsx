@@ -19,7 +19,6 @@ const Header = () => {
 	const userData = JSON.parse(localStorage.getItem('user'))
 	// console.log(userData);
 
-
 	const logout = () => {
 		localStorage.clear('user')
 		navigate("/login")
@@ -27,6 +26,7 @@ const Header = () => {
 	}
 
 	return (
+
 		<div className=" bg-white sticky top-0 z-50">
 			{/* this is for mobile version */}
 			<Transition.Root show={open} as={Fragment}>
@@ -71,18 +71,16 @@ const Header = () => {
 										All Products
 									</Link>
 
-									{userData ? <div className="flow-root">
-										<Link to={'/order'} style={{ color: mode === 'dark' ? 'white' : '', }} className="-m-2 block p-2 font-medium text-gray-900">
-											Order
-										</Link>
-									</div>
-										: ""}
 
 									{userData?.user?.email === "choudharydevesh121@gmail.com" ? <div className="flow-root">
 										<Link to={'/dashboard'} className="-m-2 block p-2 font-medium text-gray-900" style={{ color: mode === 'dark' ? 'white' : '', }}>
 											admin
 										</Link>
-									</div> : ""}
+									</div> : <div className="flow-root">
+										<Link to={'/order'} style={{ color: mode === 'dark' ? 'white' : '', }} className="-m-2 block p-2 font-medium text-gray-900">
+											Order
+										</Link>
+									</div>}
 
 									{userData ? <div className="flow-root">
 										<a onClick={logout} className="-m-2 block p-2 font-medium text-gray-900 cursor-pointer" style={{ color: mode === 'dark' ? 'white' : '', }}>
@@ -176,16 +174,18 @@ const Header = () => {
 									</Link>}
 
 
-									{userData ? <Link to={'/order'} className="text-sm font-medium text-gray-700 " style={{ color: mode === 'dark' ? 'white' : '', }}>
-										Order
-									</Link> : <Link to={'/signup'} className="text-sm font-medium text-gray-700 " style={{ color: mode === 'dark' ? 'white' : '', }}>
+									{userData ? "" : <Link to={'/signup'} className="text-sm font-medium text-gray-700 " style={{ color: mode === 'dark' ? 'white' : '', }}>
 										Signup
 									</Link>}
 
-									{userData?.user?.email === "choudharydevesh121@gmail.com" ?
+									{userData && userData?.user?.email === "choudharydevesh121@gmail.com" ?
 										<Link to={'/dashboard'} className="text-sm font-medium text-gray-700 " style={{ color: mode === 'dark' ? 'white' : '', }}>
 											Admin
-										</Link> : ""}
+										</Link> : <Link to={'/order'} className="text-sm font-medium text-gray-700 " style={{ color: mode === 'dark' ? 'white' : '', }}>
+											Order
+										</Link>}
+
+
 
 
 								</div>

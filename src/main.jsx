@@ -4,7 +4,7 @@ import App from "./App"
 import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Home from './pages/home/Home.jsx'
-import Allprouducts from './pages/apllProducts/Allprouducts';
+import Allprouducts from './pages/allProducts/Allprouducts';
 import Order from "./pages/order/Order.jsx"
 import Cart from "./pages/cart/Cart.jsx"
 import Dashboard from './pages/admin/dashBoard/Dashboard.jsx'
@@ -85,8 +85,7 @@ const router = createBrowserRouter([
           <ProtectedRouteForAdmin>
             <UpdateProduct />
           </ProtectedRouteForAdmin>
-        ),
-
+        )
       },
 
       {
