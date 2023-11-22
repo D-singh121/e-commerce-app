@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import myContext from "./MyContext";
-import { Timestamp, addDoc, collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { Timestamp, addDoc, collection, deleteDoc, doc, onSnapshot, orderBy, query, setDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { fireDB } from "../../firebase/FirebaseConfig";
+import { useNavigate } from "react-router-dom";
 
 
 //***** yaha pe hamari state rahegi jo hum components me use karne wale hai */
@@ -21,10 +22,10 @@ const MyContextStateProvider = ({ children }) => {
 	}
 	const [loading, setLoading] = useState(false);// for async work .
 	const [product, setProduct] = useState([]);  //**** initial state of product is empty but we will fetch it from fireDB and store into product array */
-	console.log(product);
+	// console.log(product);
 
 
-	//***** for addinig product the initial state */
+	//***** for addinig product the initial state schema */
 	const [products, setProducts] = useState({
 		title: null,
 		price: null,
@@ -59,7 +60,7 @@ const MyContextStateProvider = ({ children }) => {
 
 			//***** this timeout function will prevent from infinite looping */
 			setTimeout(() => {
-				window.location.href = '/dashboard'
+				navigate('/dashboard')
 			}, 800);
 
 			getProductData(); //*** jab hum product add kare to turant hume dikhna chahiye  */
@@ -72,6 +73,9 @@ const MyContextStateProvider = ({ children }) => {
 		}
 		setProducts("");// seting input field empty after product addition
 	}
+
+
+	//******************************* Get Product from Database *************************** */
 
 	const getProductData = async () => {
 
@@ -88,7 +92,7 @@ const MyContextStateProvider = ({ children }) => {
 					productArray.push({ ...doc.data(), id: doc.id });
 				});
 
-				//**** productArray me data aane ke baad usko setProduct ka use karke product empty array me store kar denge  */
+				//**** productArray me data aane ke baad usko setProducts ka use karke product empty array me store kar denge  */
 				setProduct(productArray);
 				setLoading(false)
 			});
@@ -103,8 +107,51 @@ const MyContextStateProvider = ({ children }) => {
 		getProductData() //**** page load hote hi products dikhne chahiye uske liye */
 	}, [])
 
+	//*****************************     Update Product with Admin access     ******************** */
+	const editProduct = (item) => {
+		setProducts(item) //**** we are updating a single product item */
+	}
+	const navigate = useNavigate()
+
+	const updateProduct = async () => {
+		setLoading(true)
+		try {
+			await setDoc(doc(fireDB, "products", products.id), products)
+			toast.success("Product updated successful")
+			setTimeout(() => {
+				navigate('/dashboard')
+			}, 800);
+			getProductData();
+			setLoading(false)
+			navigate("/dashboard")
+		} catch (error) {
+			console.log(error);
+			setLoading(false)
+			toast.error("Product updation failed")
+			// return error;
+		}
+	}
+
+	//******************************* Delete Product from store and database    ******************** */
+
+	const deleteProduct = async (item) => {
+		setLoading(true);
+		try {
+			await deleteDoc(doc(fireDB, "products", item.id))
+			toast.success("Product deleted successful")
+			getProductData();
+			setLoading(false)
+		} catch (error) {
+			setLoading(false)
+			console.log(error);
+			toast.error("This product can not be deleted")
+		}
+	}
+
+	//*************************************** Returning context    ************************ */
+
 	return (
-		<myContext.Provider value={{ mode, toggleMode, loading, setLoading, products, setProducts, product, addProduct }} >
+		<myContext.Provider value={{ mode, toggleMode, loading, setLoading, products, setProducts, product, addProduct, editProduct, updateProduct, deleteProduct }} >
 			{children}
 		</myContext.Provider>
 	)
