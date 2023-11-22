@@ -20,6 +20,9 @@ const MyContextStateProvider = ({ children }) => {
 		}
 	}
 	const [loading, setLoading] = useState(false);// for async work .
+	const [product, setProduct] = useState([]);  //**** initial state of product is empty but we will fetch it from fireDB and store into product array */
+	console.log(product);
+
 
 	//***** for addinig product the initial state */
 	const [products, setProducts] = useState({
@@ -70,7 +73,6 @@ const MyContextStateProvider = ({ children }) => {
 		setProducts("");// seting input field empty after product addition
 	}
 
-	const [product, setProduct] = useState([]);
 	const getProductData = async () => {
 
 		setLoading(true)
