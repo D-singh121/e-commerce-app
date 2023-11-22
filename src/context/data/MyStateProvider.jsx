@@ -54,6 +54,7 @@ const MyContextStateProvider = ({ children }) => {
 			await addDoc(productRef, products) // products is our data model
 			toast.success("Product Added")
 
+			//***** this timeout function will prevent from infinite looping */
 			setTimeout(() => {
 				window.location.href = '/dashboard'
 			}, 800);
@@ -66,7 +67,7 @@ const MyContextStateProvider = ({ children }) => {
 			// console.log(error);
 			setLoading(false)
 		}
-		setProducts("");
+		setProducts("");// seting input field empty after product addition
 	}
 
 	const [product, setProduct] = useState([]);

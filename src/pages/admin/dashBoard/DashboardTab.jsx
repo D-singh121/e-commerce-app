@@ -11,17 +11,7 @@ function DashboardTab() {
 	const context = useContext(myContext)
 	const { mode } = context
 	const navigate = useNavigate()
-	// let [isOpen, setIsOpen] = useState(false)
-
-	// function closeModal() {
-	// 	setIsOpen(false)
-	// }
-
-	// function openModal() {
-	// 	setIsOpen(true)
-	// }
-
-
+	
 	///***** add product pe click karne per addProduct page pe bhejne ke liye  */
 	const addProductOnclick = () => {
 		navigate('/addproduct')
