@@ -1,12 +1,33 @@
 // import Container from "../container/Container"
 
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import myContext from "../../context/data/MyContext"
 import Button from "../Button"
+import { useDispatch, useSelector } from "react-redux"
+import { addToCart } from "../../redux/CartSlice"
+import { toast } from "react-toastify"
 
 const ProductCard = () => {
 	const context = useContext(myContext)
 	const { mode, product } = context
+
+	//********* card add functionality using redux toolkit ********/
+	const dispatch = useDispatch();
+	
+	//****** here product is a argumemt to store cartdata */
+	const addCart = (product) => {
+		dispatch(addToCart(product));
+		toast.success("Product added to the Store")
+	}
+	//***** product cart me add hone ke baad hume ise navbar ke cart number me show karna hai uske liye hum useSelector ki madad se cart me se  no. of products ko fetch karke ek variable (cartItem ) me store kar lenge . */
+	const cartItems = useSelector((state) => (state.cart))
+	// console.log(cartItems)
+
+	//******** page refresh karne pe items value  cart se jaye na isliye ise hum localstorage me store kar rahe hai  */
+	useEffect(() => {
+		localStorage.setItem('cart', JSON.stringify(cartItems));
+	}, [cartItems])
+	//********* ab hume cart initialstate me bhi upadate karna padega  */
 
 	return (
 
@@ -21,7 +42,7 @@ const ProductCard = () => {
 
 				<div className="flex flex-wrap -m-4">
 					{product.map((item, index) => {
-						{/* console.log(item) */}
+						{/* console.log(item) */ }
 						const { title, imageUrl, price } = item;
 						return (
 							<div key={index} className="p-4 md:w-1/4  drop-shadow-lg " >
@@ -35,7 +56,9 @@ const ProductCard = () => {
 										{/* <p className="leading-relaxed mb-3">{item.description.}</p> */}
 										<p className="leading-relaxed mb-3" style={{ color: mode === 'dark' ? 'white' : '' }}>{price}</p>
 										<div className=" flex justify-center">
-											<Button className="focus:outline-none text-white bg-purple-800 hover:bg-purple-600 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm w-full  py-2">
+											<Button
+												onClick={() => addCart(product)}
+												className="focus:outline-none text-white bg-purple-800 hover:bg-purple-600 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm w-full  py-2">
 												Add to cart
 											</Button>
 										</div>

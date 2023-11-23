@@ -49,7 +49,6 @@ const MyContextStateProvider = ({ children }) => {
 		if (products.title === null || products.price === null || products.imageUrl === null || products.category === null || products.description === null) {
 			return toast.warning("all fields are mendetory")
 		}
-
 		setLoading(true)
 
 		try {
@@ -68,8 +67,9 @@ const MyContextStateProvider = ({ children }) => {
 			setLoading(false)
 
 		} catch (error) {
-			// console.log(error);
+			console.log(error);
 			setLoading(false)
+			toast.error("product added failed")
 		}
 		setProducts("");// seting input field empty after product addition
 	}
