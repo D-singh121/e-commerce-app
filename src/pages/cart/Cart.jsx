@@ -26,7 +26,7 @@ function Cart() {
   }, [cartItems])
 
 
-  //***** handle subtotal amount field */
+  //***** handle subtotal and total amount field */
   const [subTotal, setSubTotal] = useState(0)
   useEffect(() => {
     let temp = 0;
