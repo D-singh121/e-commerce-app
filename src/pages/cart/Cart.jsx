@@ -3,6 +3,9 @@ import myContext from '../../context/data/MyContext';
 import Modal from '../../components/model/Model';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteFromCart } from '../../redux/CartSlice';
+import { toast } from 'react-toastify';
+import { addDoc, collection } from 'firebase/firestore';
+import { fireDB } from "../../firebase/FirebaseConfig"
 
 
 function Cart() {
@@ -16,11 +19,10 @@ function Cart() {
 
   //********** Deleting items from cart ************ */
   const dispatch = useDispatch()
-
   const deleteCart = (item) => { //***** onclick pe deleteCart call hoga jo item paramete accept karke cartReducer se deleteFromcart action perform karwayega  */
     dispatch(deleteFromCart(item))
   }
-  //****** Delete hone ke baad localstorage me bhi update kar denge  */
+  //Delete hone ke baad localstorage me bhi update kar denge  */
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cartItems));
   }, [cartItems])
@@ -35,12 +37,117 @@ function Cart() {
     }, [cartItems]);
 
     setSubTotal(temp);
-    console.log(temp);
+    // console.log(temp);
   })
 
   const Shipping = parseInt(99)
 
   const GrandTotal = Shipping + subTotal;
+
+
+  //**************    Payment Integration on cart checkout page     **************** */
+
+  const [name, setName] = useState("")
+  const [address, setAddress] = useState("")
+  const [pincode, setPincode] = useState("")
+  const [phoneNumber, setPhoneNumber] = useState("")
+
+
+  const buyNow = async () => {
+
+    // let set validation for empty checkout details .
+    if (name === "" || address === "" || pincode === "" || phoneNumber === "") {
+      return toast.error("All fields are mandatory ", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      })
+    }
+
+
+    //ek object bana rahe hai aur isko fireStore me store karenge  */
+    const addressInfo = {
+      name,
+      address,
+      pincode,
+      phoneNumber,
+      date: new Date().toLocaleString(
+        "en-US",
+        {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        }
+      )
+    }
+    console.log(addressInfo);
+
+
+    // from razorpay 
+    var options = {
+      key: "rzp_test_B4h5gGIDPVCUhK",
+      key_secret: "yMjoxkI5r5HWlqITmvT73KeY",
+      amount: parseInt(GrandTotal * 100),
+      currency: "INR",
+      order_receipt: 'order_rcptid_' + name,
+      name: "D-ecommerce",
+      description: "for testing purpose",
+      handler: function (response) {
+        console.log(response)
+
+        toast.success('Payment Successful')
+
+
+
+
+        const paymentId = response.razorpay_payment_id //***** response me hume payment id milta hai  */
+
+        //***** ek orderInfo ka object bana rahe hai jisme order relalted information hogi fir use firestore me save kar denge   */
+        const orderInfo = {
+          cartItems,
+          addressInfo,
+          date: new Date().toLocaleString(
+            "en-US",
+            {
+              year: "numeric",
+              month: "short",
+              day: "2-digit"
+            }
+          ),
+          email: JSON.parse(localStorage.getItem("user")).user.email,
+          userid: JSON.parse(localStorage.getItem("user")).user.uid,
+          paymentId // from razorpay
+        }
+        console.log(orderInfo);
+
+        try {
+          const orderRef = collection(fireDB, 'orders');
+          addDoc(orderRef, orderInfo) //*** orederInfo ko db me save kaar rahe hai   */
+          toast.success("order saved to firestore")
+        } catch (error) {
+          console.log(error);
+          toast.error("mismatch order ")
+        }
+        toast.success('Payment Successful')
+      },
+
+      theme: {
+        color: "#3399cc"
+      }
+    };
+
+    var pay = new window.Razorpay(options);
+    pay.open();
+    console.log(pay)
+
+
+  }
+
 
 
   return (
@@ -87,7 +194,19 @@ function Cart() {
                 <p className="mb-1 text-lg font-bold" style={{ color: mode === 'dark' ? 'white' : '' }}>{GrandTotal}</p>
               </div>
             </div>
-            <Modal />
+
+
+            <Modal //**** passing props to Model component */
+              name={name}
+              address={address}
+              pincode={pincode}
+              phoneNumber={phoneNumber}
+              setAddress={setAddress}
+              setName={setName}
+              setPincode={setPincode}
+              setPhoneNumber={setPhoneNumber}
+              buyNow={buyNow}
+            />
           </div>
         </div>
       </div>

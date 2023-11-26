@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import myContext from "./MyContext";
-import { Timestamp, addDoc, collection, deleteDoc, doc, onSnapshot, orderBy, query, setDoc } from "firebase/firestore";
+import { Timestamp, addDoc, collection, deleteDoc, doc, onSnapshot, orderBy, query, getDoc, setDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { fireDB } from "../../firebase/FirebaseConfig";
 import { useNavigate } from "react-router-dom";
@@ -148,10 +148,43 @@ const MyContextStateProvider = ({ children }) => {
 		}
 	}
 
+
+	//******************************** Getting orderdata for order page   ***********************************/
+	const [order, setOrder] = useState([]);
+
+	const getOrderData = async () => {
+		setLoading(true)
+		try {
+			const result = await getDoc(collection(fireDB, "orders"))
+			const ordersArray = [];
+			result.forEach((doc) => {
+				ordersArray.push(doc.data());
+				setLoading(false)
+			});
+			setOrder(ordersArray);
+			console.log(ordersArray)
+			setLoading(false);
+		} catch (error) {
+			console.log(error)
+			setLoading(false)
+		}
+	}
+
+
+	useEffect(() => {
+		getProductData();
+		getOrderData()
+
+	}, []);
+
+
+
+
+
 	//*************************************** Returning context    ************************ */
 
 	return (
-		<myContext.Provider value={{ mode, toggleMode, loading, setLoading, products, setProducts, product, addProduct, editProduct, updateProduct, deleteProduct }} >
+		<myContext.Provider value={{ mode, toggleMode, loading, setLoading, products, setProducts, product, addProduct, editProduct, updateProduct, deleteProduct, order }} >
 			{children}
 		</myContext.Provider>
 	)

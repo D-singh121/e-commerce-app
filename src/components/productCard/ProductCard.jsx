@@ -16,7 +16,7 @@ const ProductCard = () => {
 
 	//***** product cart me add hone ke baad hume ise navbar ke cart number me show karna hai uske liye hum useSelector ki madad se cart me se  no. of products ko fetch karke ek variable (cartItem ) me store kar lenge . */
 	const cartItems = useSelector((state) => state.cart)
-	console.log(cartItems)
+	// console.log(cartItems)
 
 	//****** here product is a argumemt to store cartdata */
 	const addCart = (product) => {
