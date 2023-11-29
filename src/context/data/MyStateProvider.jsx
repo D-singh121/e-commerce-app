@@ -103,9 +103,7 @@ const MyContextStateProvider = ({ children }) => {
 			setLoading(false)
 		}
 	}
-	useEffect(() => {
-		getProductData() //**** page load hote hi products dikhne chahiye uske liye */
-	}, [])
+	
 
 	//*****************************     Update Product with Admin access     ******************** */
 	const editProduct = (item) => {
@@ -150,28 +148,9 @@ const MyContextStateProvider = ({ children }) => {
 
 
 	//******************************** Getting orderdata for order page   ***********************************/
+
 	const [order, setOrder] = useState([]);
-	//----- humara initial order data ek empty aaray rahega fir jab hum firedb se order data layenge to setOrder ki madad se order state me set kar denge 
-
-	/*const getOrderData = async () => {
-		setLoading(true)//-- async work me loading true kar dena chahiye;
-		try {
-			const result = await getDocs(collection(fireDB, "orders")); 
-			console.log(result);
-			const ordersArray = [];
-			result.forEach((doc) => {
-				ordersArray.push(doc.data());
-				setLoading(false)
-			});
-			setOrder(ordersArray); // orderArray se order me orderdata bhej rahe hai. 
-			// console.log(ordersArray)
-			setLoading(false);
-		} catch (error) {
-			// console.log(error)
-			setLoading(false)
-		}
-	}*/
-
+	//----- humara initial order data ek empty aaray rahega fir jab hum firedb se order data layenge to setOrder ki madad se order state me set kar denge ;
 	const getOrderData = async () => {
 		setLoading(true)
 		try {
@@ -191,23 +170,39 @@ const MyContextStateProvider = ({ children }) => {
 		}
 	}
 
+	//************************** getting all registered UserData from database  ********************* */
+	const [userlist, setUserlist] = useState([]);
+	const getAllUserData = async () => {
+		try {
+			const userData = await getDocs(collection(fireDB, "users"))
+			const usersArray = [];
+			userData.forEach((doc) => {
+				usersArray.push(doc.data());
+				setLoading(false)
+			});
+			setUserlist(usersArray);
+			// console.log(usersArray)
+			setLoading(false);
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
 	useEffect(() => {
-		// getProductData()
+		getProductData() //**** page load hote hi products dikhne chahiye uske liye */
 		getOrderData()
+		getAllUserData();
 
-	}, []);
-
-
-
+	}, [])
 
 
 	//*************************************** Returning context    ************************ */
 
 	return (
-		<myContext.Provider value={{ mode, toggleMode, loading, setLoading, products, setProducts, product, addProduct, editProduct, updateProduct, deleteProduct, order }} >
+		<myContext.Provider value={{ mode, toggleMode, loading, setLoading, products, setProducts, product, addProduct, editProduct, updateProduct, deleteProduct, order, userlist }} >
 			{children}
 		</myContext.Provider>
 	)
 }
 
-export default MyContextStateProvider
+export default MyContextStateProvider;
