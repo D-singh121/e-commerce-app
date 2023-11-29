@@ -103,7 +103,7 @@ const MyContextStateProvider = ({ children }) => {
 			setLoading(false)
 		}
 	}
-	
+
 
 	//*****************************     Update Product with Admin access     ******************** */
 	const editProduct = (item) => {
@@ -170,7 +170,7 @@ const MyContextStateProvider = ({ children }) => {
 		}
 	}
 
-	//************************** getting all registered UserData from database  ********************* */
+	//**************************    getting all registered UserData from database  ********************* */
 	const [userlist, setUserlist] = useState([]);
 	const getAllUserData = async () => {
 		try {
@@ -195,11 +195,16 @@ const MyContextStateProvider = ({ children }) => {
 
 	}, [])
 
+	//*****************************  Writing Filter & search logics  *****************/
+	//-- by these state we'll manupulate the search and filter part of website.
+	const [searchKey, setSearchKey] = useState('');
+	const [filterType, setFilterType] = useState('');
+	const [filterPrice, setFilterPrice] = useState('');
 
-	//*************************************** Returning context    ************************ */
+	//***********************************    Returning context  ************************ */
 
 	return (
-		<myContext.Provider value={{ mode, toggleMode, loading, setLoading, products, setProducts, product, addProduct, editProduct, updateProduct, deleteProduct, order, userlist }} >
+		<myContext.Provider value={{ mode, toggleMode, loading, setLoading, products, setProducts, product, addProduct, editProduct, updateProduct, deleteProduct, order, userlist, searchKey, setSearchKey, filterType, setFilterType, filterPrice, setFilterPrice }} >
 			{children}
 		</myContext.Provider>
 	)

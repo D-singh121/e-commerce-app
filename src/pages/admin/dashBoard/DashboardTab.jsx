@@ -20,7 +20,7 @@ function DashboardTab() {
 
 	return (
 		<>
-			<div className="container mx-auto">
+			<div className="container mx-auto" style={{backgroundColor: mode === 'dark' ? 'rgb(64 66 70)' : '', color: mode === 'dark' ? 'white' : ''}}>
 				<div className="tab container mx-auto ">
 					<Tabs defaultIndex={0} className=" ">
 						<TabList className="md:flex md:space-x-8 bg-  grid grid-cols-2 text-center gap-4   md:justify-center mb-10 ">

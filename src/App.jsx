@@ -13,7 +13,7 @@ function App() {
     <>
       <MyContextStateProvider>
         <Header />
-        <main>
+        <main >
           <Outlet />
           <ToastContainer />
         </main>

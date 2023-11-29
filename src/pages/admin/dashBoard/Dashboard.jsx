@@ -9,7 +9,7 @@ function Dashboard() {
   const { mode, product, order, userlist } = context;
   return (
     <>
-      <section className="text-gray-600 body-font mt-10 mb-10">
+      <section className="text-gray-600 body-font py-10 " style={{backgroundColor: mode === 'dark' ? 'rgb(64 66 70)' : '', color: mode === 'dark' ? 'white' : ''}}>
         <div className="container px-5 mx-auto mb-10">
           <div className="flex  justify-center flex-wrap -m-4 text-center align-center">
             <div className="p-4 md:w-1/4 sm:w-1/2 w-full">
