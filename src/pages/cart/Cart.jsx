@@ -126,7 +126,7 @@ function Cart() {
         console.log(orderInfo);
 
         try {
-          const orderRef = collection(fireDB, 'orders');
+          const orderRef = collection(fireDB, 'orders'); // is " orders" collection me humare purchased order list hogi .
           addDoc(orderRef, orderInfo) //*** orederInfo ko db me save kaar rahe hai   */
           toast.success("order saved to firestore")
         } catch (error) {

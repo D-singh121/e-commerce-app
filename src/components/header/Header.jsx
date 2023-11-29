@@ -83,7 +83,7 @@ const Header = () => {
 											admin
 										</Link>
 									</div> : <div className="flow-root">
-										<Link to={'/order'} style={{ color: mode === 'dark' ? 'white' : '', }} className="-m-2 block p-2 font-medium text-gray-900">
+										<Link to={'/orders'} style={{ color: mode === 'dark' ? 'white' : '', }} className="-m-2 block p-2 font-medium text-gray-900">
 											Order
 										</Link>
 									</div>}
@@ -187,7 +187,7 @@ const Header = () => {
 									{userData && userData?.user?.email === "choudharydevesh121@gmail.com" ?
 										<Link to={'/dashboard'} className="text-sm font-medium text-gray-700 " style={{ color: mode === 'dark' ? 'white' : '', }}>
 											Admin
-										</Link> : <Link to={'/order'} className="text-sm font-medium text-gray-700 " style={{ color: mode === 'dark' ? 'white' : '', }}>
+										</Link> : <Link to={'/orders'} className="text-sm font-medium text-gray-700 " style={{ color: mode === 'dark' ? 'white' : '', }}>
 											Order
 										</Link>}
 

@@ -5,7 +5,6 @@ import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Home from './pages/home/Home.jsx'
 import Allprouducts from './pages/allProducts/Allprouducts';
-import Order from "./pages/order/Order.jsx"
 import Cart from "./pages/cart/Cart.jsx"
 import Dashboard from './pages/admin/dashBoard/Dashboard.jsx'
 import Nopage from "./pages/noPage/Nopage.jsx"
@@ -14,14 +13,13 @@ import Signup from './pages/registration/SignUp.jsx'
 import Header from './components/header/Header.jsx'
 import Footer from './components/footer/Footer.jsx'
 import ProductInfo from './pages/productInfo/ProductInfo.jsx'
-
 import myStore from './redux/Store.jsx'
 import { Provider } from 'react-redux';
 import ProtectedRouteForAdmin from "./components/protectedRouting/ProtectedAdminRoute"
 import ProtectedUserRoute from "./components/protectedRouting/ProtectedUserRoute"
 import AddProduct from './pages/admin/pages/AddProduct'
 import UpdateProduct from './pages/admin/pages/UpdateProduct';
-
+import OrderPage from './pages/order/Order';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -49,10 +47,10 @@ const router = createBrowserRouter([
         element: <ProductInfo />
       },
       {
-        path: '/order',
+        path: '/orders',
         element: (
           <ProtectedUserRoute>
-            <Order />
+            <OrderPage />
           </ProtectedUserRoute>)
       },
       {

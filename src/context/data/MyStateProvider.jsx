@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import myContext from "./MyContext";
-import { Timestamp, addDoc, collection, deleteDoc, doc, onSnapshot, orderBy, query, getDoc, setDoc } from "firebase/firestore";
+import { Timestamp, addDoc, collection, deleteDoc, doc, onSnapshot, orderBy, query, getDocs, setDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { fireDB } from "../../firebase/FirebaseConfig";
 import { useNavigate } from "react-router-dom";
@@ -151,18 +151,39 @@ const MyContextStateProvider = ({ children }) => {
 
 	//******************************** Getting orderdata for order page   ***********************************/
 	const [order, setOrder] = useState([]);
+	//----- humara initial order data ek empty aaray rahega fir jab hum firedb se order data layenge to setOrder ki madad se order state me set kar denge 
 
-	const getOrderData = async () => {
-		setLoading(true)
+	/*const getOrderData = async () => {
+		setLoading(true)//-- async work me loading true kar dena chahiye;
 		try {
-			const result = await getDoc(collection(fireDB, "orders"))
+			const result = await getDocs(collection(fireDB, "orders")); 
+			console.log(result);
 			const ordersArray = [];
 			result.forEach((doc) => {
 				ordersArray.push(doc.data());
 				setLoading(false)
 			});
-			setOrder(ordersArray);
-			console.log(ordersArray)
+			setOrder(ordersArray); // orderArray se order me orderdata bhej rahe hai. 
+			// console.log(ordersArray)
+			setLoading(false);
+		} catch (error) {
+			// console.log(error)
+			setLoading(false)
+		}
+	}*/
+
+	const getOrderData = async () => {
+		setLoading(true)
+		try {
+			const result = await getDocs(collection(fireDB, "orders")) // yaha pe " orders" humare order collection ks name hai jo purchase hone ke baad firedb me save ho jata hai ;
+			//   console.log(result);
+			const ordersArray = [];
+			result.forEach((doc) => {
+				ordersArray.push(doc.data());
+				setLoading(false)
+			});
+			setOrder(ordersArray);  // orderArray se order me orderdata bhej rahe hai. 
+			//   console.log(ordersArray)
 			setLoading(false);
 		} catch (error) {
 			console.log(error)
@@ -170,9 +191,8 @@ const MyContextStateProvider = ({ children }) => {
 		}
 	}
 
-
 	useEffect(() => {
-		getProductData();
+		// getProductData()
 		getOrderData()
 
 	}, []);
