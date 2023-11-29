@@ -99,12 +99,7 @@ function Cart() {
       description: "for testing purpose",
       handler: function (response) {
         console.log(response)
-
-        toast.success('Payment Successful')
-
-
-
-
+        // toast.success('Payment Successful')
         const paymentId = response.razorpay_payment_id //***** response me hume payment id milta hai  */
 
         //***** ek orderInfo ka object bana rahe hai jisme order relalted information hogi fir use firestore me save kar denge   */
@@ -123,7 +118,7 @@ function Cart() {
           userid: JSON.parse(localStorage.getItem("user")).user.uid,
           paymentId // from razorpay
         }
-        console.log(orderInfo);
+        // console.log(orderInfo);
 
         try {
           const orderRef = collection(fireDB, 'orders'); // is " orders" collection me humare purchased order list hogi .
@@ -144,6 +139,7 @@ function Cart() {
     var pay = new window.Razorpay(options);
     pay.open();
     console.log(pay)
+    deleteCart(cartItems.product)
 
 
   }
