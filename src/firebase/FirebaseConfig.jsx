@@ -4,12 +4,12 @@ import { getAuth } from "firebase/auth"
 
 
 const firebaseConfig = {
-	apiKey: "AIzaSyCOEd0P4tvGpYgWE_i8BzWPrToV8hY6QW8",
-	authDomain: "e-commerce-website-d10ba.firebaseapp.com",
-	projectId: "e-commerce-website-d10ba",
-	storageBucket: "e-commerce-website-d10ba.appspot.com",
-	messagingSenderId: "944198687723",
-	appId: "1:944198687723:web:251ddb9ae670a6fc3e17ae"
+	apiKey: String(import.meta.env.VITE_API_KEY),
+	authDomain: String(import.meta.env.VITE_AUTHDOMAIN),
+	projectId: String(import.meta.env.VITE_PROJECT_ID),
+	storageBucket: String(import.meta.env.VITE_STORAGE_BUCKET),
+	messagingSenderId: String(import.meta.env.VITE_MESSAGING_SENDER_ID),
+	appId: String(import.meta.env.VITE_APP_ID)
 };
 
 // Initialize Firebase
