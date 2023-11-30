@@ -15,7 +15,7 @@ function Login() {
 	const navigate = useNavigate()
 
 	const context = useContext(myContext)
-	const { loading, setLoading } = context
+	const { mode, loading, setLoading } = context
 
 	const login = async () => {
 		setLoading(true)
@@ -40,9 +40,9 @@ function Login() {
 
 
 	return (
-		<div className=' flex justify-center items-center h-screen'>
+		<div className=' flex justify-center items-center h-screen' style={{ backgroundColor: mode === 'dark' ? '#333334' : '', color: mode === 'dark' ? 'white' : '', }}>
 			{loading && <Loader />}
-			<div className=' bg-gray-800 px-10 py-10 rounded-xl '>
+			<div className=' bg-gray-800 px-10 py-10 pt-7 rounded-xl '>
 				<div className="">
 					<h1 className='text-center text-white text-xl mb-4 font-bold'>Login</h1>
 				</div>

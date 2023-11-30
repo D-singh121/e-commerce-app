@@ -16,7 +16,7 @@ function Signup() {
 	const navigate = useNavigate()
 
 	const context = useContext(myContext);
-	const { loading, setLoading } = context;
+	const { mode, loading, setLoading } = context;
 
 	const signup = async () => {
 		if (name === "" || email === "" || password === "") {
@@ -57,7 +57,7 @@ function Signup() {
 	}
 
 	return (
-		<div className=' flex justify-center items-center h-screen'>
+		<div className=' flex justify-center items-center h-screen' style={{ backgroundColor: mode === 'dark' ? '#333334' : '', color: mode === 'dark' ? 'white' : '', }}>
 			{loading && <Loader />}
 			<div className=' bg-gray-800 px-10 py-10 rounded-xl '>
 				<div className="">
